@@ -80,12 +80,14 @@
   <ItemGroup>
     <Compile Include="Assets\scripts\EventHandler.cs" />
     <Compile Include="Assets\scripts\JsonHelper.cs" />
+    <Compile Include="Assets\scripts\RtfConverter.cs" />
     <Compile Include="Assets\scripts\TwitterHelper.cs" />
     <Compile Include="Assets\scripts\twitterJson.cs" />
     <Compile Include="Assets\scripts\TwitterOauth.cs" />
     <Compile Include="Assets\scripts\twitterRequest.cs" />
     <Compile Include="Assets\scripts\TwitterStream.cs" />
     <Compile Include="Assets\scripts\TwitterStreamType.cs" />
+    <Compile Include="Assets\tes.cs" />
     <Compile Include="Assets\TestTwitter.cs" />
   </ItemGroup>
   <ItemGroup>

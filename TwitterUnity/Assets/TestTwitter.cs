@@ -18,6 +18,8 @@ namespace Twitter
         [SerializeField] Texture tex;
         [SerializeField] Image im;
 
+        [SerializeField] RtfConverter rtf;
+
 
         private void Update()
         {
@@ -44,6 +46,35 @@ namespace Twitter
             StartCoroutine(Twitter.Client.Post("statuses/update", parameters, this.Callback));
         }
 
+        /// <summary>
+        /// リプ
+        /// </summary>
+        /// <param name="text"></param>
+        public void Reply(string text, Tweet tweet)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters["status"] = "@" + tweet.user.screen_name  + text;  // 前半部分がリプの相手後半内容
+            parameters["in_reply_to_status_id"] = tweet.id_str; 
+            StartCoroutine(Twitter.Client.Post("statuses/update", parameters, this.Callback));
+        }
+
+        /// <summary>
+        /// 投稿したツイートのコールバック
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="response"></param>
+        void Callback(bool success, string response)
+        {
+            if (success)
+            {
+                Tweet tweet = JsonUtility.FromJson<Tweet>(response); // 投稿したツイートが返ってくる
+                Debug.Log(tweet.text);
+            }
+            else
+            {
+                Debug.Log(response);
+            }
+        }
 
         /// <summary>
         /// フィルター
@@ -58,7 +89,7 @@ namespace Twitter
             tracks.Add(search);
             Twitter.FilterTrack filterTrack = new Twitter.FilterTrack(tracks);
             streamParameters.Add(filterTrack.GetKey(), filterTrack.GetValue());
-            StartCoroutine(stream.On(streamParameters, OnStream_user));
+            StartCoroutine(stream.On(streamParameters, OnStream_filter));
         }
 
 
@@ -74,26 +105,11 @@ namespace Twitter
         }
 
 
-        /// <summary>
-        /// 投稿したツイートのコールバック
-        /// </summary>
-        /// <param name="success"></param>
-        /// <param name="response"></param>
-        void Callback(bool success, string response)
-        {
-            if (success)
-            {
-                Tweet tweet = JsonUtility.FromJson<Tweet>(response); // 投稿したツイートが返ってくる
-            }
-            else
-            {
-                Debug.Log(response);
-            }
-        }
+
 
 
         /// <summary>
-        /// ストリームのコールバック
+        /// ユーザーストリームのコールバック
         /// </summary>
         /// <param name="response"></param>
         /// <param name="messageType"></param>
@@ -110,7 +126,6 @@ namespace Twitter
                         StartCoroutine(GetImage(tweet.entities.media[0].media_url, image[0]));
                     else
                         image[0].texture = tex;
-                    Debug.Log(tweet.entities.media);
                     //ファボテスト
                    // Fav(tweet);
 
@@ -120,6 +135,7 @@ namespace Twitter
                 {
                     StreamEvent streamEvent = JsonUtility.FromJson<StreamEvent>(response);
                     Debug.Log(streamEvent.event_name); // Response Key 'event' is replaced 'event_name' in this library.
+                    Debug.Log(response);
 
                 }
                 else if (messageType == StreamMessageType.FriendsList)
@@ -132,6 +148,57 @@ namespace Twitter
                 Debug.Log(e);
             }
         }
+
+
+        /// <summary>
+        /// フィルターのコールバック
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="messageType"></param>
+        void OnStream_filter(string response, StreamMessageType messageType)
+        {
+            try
+            {
+                if (messageType == StreamMessageType.Tweet)
+                {
+                    Tweet tweet = JsonUtility.FromJson<Tweet>(response);
+                    text.text = (tweet.user.name + "\n" + tweet.text);
+                    StartCoroutine(GetImage(tweet.user.profile_image_url, usr_imag));
+                    if (tweet.entities.media != null)
+                        StartCoroutine(GetImage(tweet.entities.media[0].media_url, image[0]));
+                    else
+                        image[0].texture = tex;
+
+                    RtfConvert(tweet);
+                    //Reply("てすと", tweet);
+                    //ファボテスト
+                    Fav(tweet);
+
+
+                }
+                else if (messageType == StreamMessageType.StreamEvent)
+                {
+                    StreamEvent streamEvent = JsonUtility.FromJson<StreamEvent>(response);
+                    Debug.Log(streamEvent.event_name); // Response Key 'event' is replaced 'event_name' in this library.
+
+
+                }
+                else if (messageType == StreamMessageType.FriendsList)
+                {
+                    FriendsList friendsList = JsonUtility.FromJson<FriendsList>(response);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+
+        public void RtfConvert(Tweet tweet_)
+        {
+            StartCoroutine( rtf.Tweet_in(tweet_.text,tweet_.user.id));
+        }
+
 
         IEnumerator GetImage(string url,RawImage image)
         {

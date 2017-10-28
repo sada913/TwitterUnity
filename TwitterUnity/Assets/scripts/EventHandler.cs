@@ -13,10 +13,10 @@ namespace Twitter
 
         void Start()
         {
-            Twitter.Oauth.consumerKey = "2cvM3kz0SjdFnqWr2F4fdlyFZ";
-            Twitter.Oauth.consumerSecret = "cLCwgmyHoDrm81L9Sj3Th15RBOyB7g8jCfo9lAyye90EyXpPmI";
-            Twitter.Oauth.accessToken = "2949334176-ot6ThM3aZ65a0tXwfKcLwwaSWoIEyZMm6maWfXt";
-            Twitter.Oauth.accessTokenSecret = "SE0TpuotgwC3qNpieR6pUohcAncMIP6FmNHw3M5p8VcbN";
+            Twitter.Oauth.consumerKey = "nifATKyTGVVmhyTkVSQGcEfmt";
+            Twitter.Oauth.consumerSecret = "wLABePmX4iekNmR3Sn9ipW4YwRNZ1JXhtXJCDsN7YHG7mKNWOR";
+            Twitter.Oauth.accessToken = "837528735100239873-bS9fDIXeQNycXmW5gmdT106Ojzy2btM";
+            Twitter.Oauth.accessTokenSecret = "WBBP9wkpGG7RE4bvAuueUKhMOqnzhXqY0ckl3H0DCRNEp";
             isOauth = true;
 
             

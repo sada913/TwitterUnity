@@ -445,7 +445,7 @@ Prefab:
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
       propertyPath: search_srting
-      value: "#\u3055\u3060\u958B\u767A\u30E1\u30E2"
+      value: "#\u3055\u3060twitter\u958B\u767A\u30E1\u30E2"
       objectReference: {fileID: 0}
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
@@ -460,13 +460,18 @@ Prefab:
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
       propertyPath: isFilter
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
       propertyPath: tex
       value: 
       objectReference: {fileID: 10916, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
+        type: 2}
+      propertyPath: rtf
+      value: 
+      objectReference: {fileID: 1966426110}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b555bf91925deeb4fb0bf7970db8cf76, type: 2}
   m_IsPrefabParent: 0
@@ -725,3 +730,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1966426106 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1538798712167304, guid: b555bf91925deeb4fb0bf7970db8cf76,
+    type: 2}
+  m_PrefabInternal: {fileID: 769972737}
+--- !u!114 &1966426110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1966426106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded2f15294ae1bc4c9eb069cb711ca1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmp: 
+  cm: 0
+  rtf_list: []
+  istext_cmd: 0
