@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -460,7 +460,7 @@ Prefab:
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
       propertyPath: isFilter
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
@@ -472,6 +472,11 @@ Prefab:
       propertyPath: rtf
       value: 
       objectReference: {fileID: 1966426110}
+    - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b555bf91925deeb4fb0bf7970db8cf76, type: 2}
   m_IsPrefabParent: 0
@@ -735,6 +740,38 @@ GameObject:
   m_PrefabParentObject: {fileID: 1538798712167304, guid: b555bf91925deeb4fb0bf7970db8cf76,
     type: 2}
   m_PrefabInternal: {fileID: 769972737}
+--- !u!114 &1966426107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1966426106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e669800d7f75a49a5ef3335bf8275a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1966426108 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
+    type: 2}
+  m_PrefabInternal: {fileID: 769972737}
+  m_Script: {fileID: 11500000, guid: b3de0c54ad22e0a429aff0e74d8d8311, type: 3}
+--- !u!114 &1966426109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1966426106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1833fdf11b39a4ba2f9a03f79105e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  twitter: {fileID: 1966426108}
+  api_s: LSOG0uYdyun8bOAznC4VBuejz7OPagPNow37LIRhLCzTRjO5Aj
+  token: 2949334176-KYgIsxyALm8WMX7VZPBnagIXm3gYbgACRcJ3JMR
+  token_s: 8fCiSudBpwYDmGnvVgARowSo1eEO7QMnKnQa4xXjcVpgE
 --- !u!114 &1966426110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,6 +783,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded2f15294ae1bc4c9eb069cb711ca1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    user_id: 0
+    data: 
   tmp: 
   cm: 0
   rtf_list: []

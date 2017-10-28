@@ -9,6 +9,9 @@ namespace Twitter
     {
         public static bool isOauth = false;
         public TestTwitter twitter;
+        [SerializeField] string api_s;
+        [SerializeField] string token;
+        [SerializeField] string token_s;
 
 
         void Start()

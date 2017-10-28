@@ -6,27 +6,30 @@ using System.IO;
 
 namespace Twitter
 {
-
+    [System.Serializable]
+    public class RtfData
+    {
+        public long user_id;
+        public string data;
+    };
     public class RtfConverter :MonoBehaviour
     {
-        [System.Serializable]
-        public class RtfData
-        {
-            public long user_id;
-            public string data;
-        };
 
-            string font_size_r = " \\fs";
-            string center_r = "\\pard\\sa200\\sl276\\slmult1\\qc ";
-            string init_r = "\\pard\\sa200\\sl276\\slmult1 ";
+        public RtfData data;
+        Tweet tweet_;
 
-            char font_size_t = 'f';
-            char center_t = 'c';
-            char init_t = 'i';
+
+        string font_size_r = " \\fs";
+        string center_r = "\\pard\\sa200\\sl276\\slmult1\\qc ";
+        string init_r = "\\pard\\sa200\\sl276\\slmult1 \\fs22 ";
+
+        char font_size_t = 'f';
+        char center_t = 'c';
+        char init_t = 'i';
 
         public string tmp = "";
 
-        enum cmdid { add, end, creat };
+        enum cmdid { add, end, creat, other };
         [SerializeField]　cmdid cm;
 
         public List<RtfData> rtf_list = new List<RtfData>();
@@ -35,12 +38,26 @@ namespace Twitter
 
         protected string rtfinit = "{\\rtf1\\ansi\\ansicpg932\\deff0{\\fonttbl{\\f0\\fnil\\fcharset128 \\'82\\'6c\\'82\\'72 \\'96\\'be\\'92\\'a9;}}{\\colortbl ;\\red255\\green0\\blue0;}{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\lang17\\f0\\fs22";
 
-        public IEnumerator Tweet_in(string text,long usr_id)
+        public void Tweet_in(Tweet t)
         {
-            string[] s = TweetSpliter(text);
-            TweetToRtf(s, istext_cmd, usr_id);
+            tweet_ = t;
+            string[] s = TweetSpliter(t.text);
+            TweetToRtf(s, istext_cmd, t.user.id);
 
-            yield return null;
+        }
+
+        IEnumerator post(RtfData r, Tweet tweet)
+        {
+            string url = "http://sada-913.xyz/Unity/TwitterToRTF/rtfdl.php";
+            WWWForm form = new WWWForm();
+            form.AddField("id", r.user_id.ToString());
+            form.AddField("data", r.data);
+
+
+            WWW www = new WWW(url, form);
+            yield return www;
+            DM("レポートはこちら" + "http://sada-913.xyz/Unity/TwitterToRTF/" + r.user_id + ".rtf", tweet);
+            Reply("レポートはこちら" + "http://sada-913.xyz/Unity/TwitterToRTF/" + r.user_id + ".rtf", tweet);
         }
         public string[] TweetSpliter(string text)
         {
@@ -58,18 +75,20 @@ namespace Twitter
 
         public void TweetCmdChecker(string cmd)
         {
-            if(cmd == "-a")
+            if (cmd == "-a")
             {
                 cm = cmdid.add;
             }
-            else if(cmd == "-e")
-            { 
+            else if (cmd == "-e")
+            {
                 cm = cmdid.end;
             }
-            else if(cmd == "-n")
+            else if (cmd == "-n")
             {
                 cm = cmdid.creat;
             }
+            else
+                cm = cmdid.other;
 
 
         }
@@ -220,8 +239,12 @@ namespace Twitter
                 tmp = rtf_list[rtf_data_num].data;
                 Debug.Log(rtf_list[rtf_data_num].user_id);
                 Debug.Log(rtf_list[rtf_data_num].data);
+                data = rtf_list[rtf_data_num];
+                StartCoroutine(post(data, tweet_));
+
                 rtf_list.RemoveAt(rtf_data_num);
             }
+            
 
             return tmp;
 
@@ -254,6 +277,58 @@ namespace Twitter
             rtftext += text[string_num_soezi + 1];
 
             return rtftext;
+        }
+
+
+        /// <summary>
+        /// リプ
+        /// </summary>
+        /// <param name="text"></param>
+        public void Reply(string text, Tweet tweet)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters["status"] =  text+" " +"@" + tweet.user.screen_name;  // 前半部分がリプの相手後半内容
+            parameters["in_reply_to_status_id"] = tweet.id_str;
+            StartCoroutine(Twitter.Client.Post("statuses/update", parameters, this.Callback));
+        }
+
+        public void DM(string text, Tweet tweet)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters["text"] = text;  // 前半部分がリプの相手後半内容
+            parameters["user_id"] = tweet.user.id_str;
+            StartCoroutine(Twitter.Client.Post("direct_messages/new", parameters, this.DMCallback));
+        }
+
+        /// <summary>
+        /// 投稿したツイートのコールバック
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="response"></param>
+        void Callback(bool success, string response)
+        {
+            if (success)
+            {
+                Tweet tweet = JsonUtility.FromJson<Tweet>(response); // 投稿したツイートが返ってくる
+                Debug.Log(tweet.text);
+            }
+            else
+            {
+                Debug.Log(response);
+            }
+        }
+
+        void DMCallback(bool success, string response)
+        {
+            if (success)
+            {
+                DirectMessage DM = JsonUtility.FromJson<DirectMessage> (response); // 投稿したツイートが返ってくる
+                Debug.Log(DM.text);
+            }
+            else
+            {
+                Debug.Log(response);
+            }
         }
 
     }

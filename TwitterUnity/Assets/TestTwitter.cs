@@ -170,9 +170,9 @@ namespace Twitter
                         image[0].texture = tex;
 
                     RtfConvert(tweet);
-                    //Reply("てすと", tweet);
+                    //rtf.Reply("てすと", tweet);
                     //ファボテスト
-                    Fav(tweet);
+                    //Fav(tweet);
 
 
                 }
@@ -194,9 +194,24 @@ namespace Twitter
             }
         }
 
+        IEnumerator post(RtfData r,Tweet tweet)
+        {
+            string url = "http://sada-913.xyz/Unity/TwitterToRTF/rtfdl.php";
+            WWWForm form = new WWWForm();
+            form.AddField("id", r.user_id.ToString());
+            form.AddField("data", r.data);
+
+
+            WWW www = new WWW(url, form);
+            yield return www;
+            Reply("レポートはこちら" + "http://sada-913.xyz/Unity/TwitterToRTF/" + r.user_id + ".rtf",tweet);
+        }
+
+
         public void RtfConvert(Tweet tweet_)
         {
-            StartCoroutine( rtf.Tweet_in(tweet_.text,tweet_.user.id));
+            rtf.Tweet_in(tweet_);
+                
         }
 
 
