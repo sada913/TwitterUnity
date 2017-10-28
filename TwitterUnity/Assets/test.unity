@@ -460,7 +460,7 @@ Prefab:
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}
       propertyPath: isFilter
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114438363477435932, guid: b555bf91925deeb4fb0bf7970db8cf76,
         type: 2}

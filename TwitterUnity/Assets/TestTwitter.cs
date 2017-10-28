@@ -32,6 +32,11 @@ namespace Twitter
             //認証が終わっていたら実行
         }
 
+
+        /// <summary>
+        /// ツイート
+        /// </summary>
+        /// <param name="text"></param>
         public void Tweet(string text)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -39,6 +44,11 @@ namespace Twitter
             StartCoroutine(Twitter.Client.Post("statuses/update", parameters, this.Callback));
         }
 
+
+        /// <summary>
+        /// フィルター
+        /// </summary>
+        /// <param name="search"></param>
         public void Filter(string search)
         {
             stream = new Stream(StreamType.PublicFilter);
@@ -51,6 +61,10 @@ namespace Twitter
             StartCoroutine(stream.On(streamParameters, OnStream_user));
         }
 
+
+        /// <summary>
+        /// ユーザーストリーム
+        /// </summary>
         public void UserStream()
         {
             stream = new Stream(StreamType.User);
@@ -59,6 +73,12 @@ namespace Twitter
             StartCoroutine(stream.On(streamParameters, OnStream_user));
         }
 
+
+        /// <summary>
+        /// 投稿したツイートのコールバック
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="response"></param>
         void Callback(bool success, string response)
         {
             if (success)
@@ -72,7 +92,11 @@ namespace Twitter
         }
 
 
-
+        /// <summary>
+        /// ストリームのコールバック
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="messageType"></param>
         void OnStream_user(string response, StreamMessageType messageType)
         {
             try
@@ -140,14 +164,21 @@ namespace Twitter
 
 
 
-
+        /// <summary>
+        /// ふぁぼる
+        /// </summary>
+        /// <param name="tweet"></param>
         void Fav(Tweet tweet)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters["id"] = tweet.id_str; // ファボするツイートのID
             StartCoroutine(Twitter.Client.Post("favorites/create", parameters, this.FavCallback));
         }
-
+        /// <summary>
+        /// ファボのコールバック
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="response"></param>
         void FavCallback(bool success, string response)
         {
             if (success)
@@ -159,14 +190,21 @@ namespace Twitter
                 Debug.Log(response);
             }
         }
-
+        /// <summary>
+        /// リツイートする
+        /// </summary>
+        /// <param name="tweet"></param>
         void Retweet(Tweet tweet)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters["id"] = tweet.id_str; // リツイートするツイートのID
             StartCoroutine(Twitter.Client.Post("statuses/retweet/" + tweet.id_str, parameters, this.RetweetCallback));
         }
-
+        /// <summary>
+        /// リツイートのコールバック
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="response"></param>
         void RetweetCallback(bool success, string response)
         {
             if (success)
