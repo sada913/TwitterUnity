@@ -9,6 +9,7 @@ namespace Twitter
     {
         public static bool isOauth = false;
         public TestTwitter twitter;
+        [SerializeField] string api;
         [SerializeField] string api_s;
         [SerializeField] string token;
         [SerializeField] string token_s;
@@ -16,10 +17,10 @@ namespace Twitter
 
         void Start()
         {
-            Twitter.Oauth.consumerKey = "nifATKyTGVVmhyTkVSQGcEfmt";
-            Twitter.Oauth.consumerSecret = "wLABePmX4iekNmR3Sn9ipW4YwRNZ1JXhtXJCDsN7YHG7mKNWOR";
-            Twitter.Oauth.accessToken = "837528735100239873-bS9fDIXeQNycXmW5gmdT106Ojzy2btM";
-            Twitter.Oauth.accessTokenSecret = "WBBP9wkpGG7RE4bvAuueUKhMOqnzhXqY0ckl3H0DCRNEp";
+            Twitter.Oauth.consumerKey = api;
+            Twitter.Oauth.consumerSecret = api_s;
+            Twitter.Oauth.accessToken = token;
+            Twitter.Oauth.accessTokenSecret = token_s;
             isOauth = true;
 
             
